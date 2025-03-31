@@ -1,0 +1,15 @@
+# Node.js dependencies
+node_modules/
+
+# Vite build files
+dist/
+
+# Environment variables
+.env
+
+# Python virtual environments
+venv/
+
+# Compiled files
+__pycache__/
+*.pyc

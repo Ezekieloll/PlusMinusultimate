@@ -1,0 +1,10 @@
+Flask==2.2.2
+pandas==1.5.3
+spacy==3.5.0
+transformers==4.27.0
+torch==2.0.0
+tensorflow           # or tensorflow if preferred
+geopy==2.3.0
+open-cage-geocoder
+gunicorn
+python-dotenv
