@@ -1,9 +1,10 @@
+# backend/app.py
 from flask import Flask, request, jsonify
 import pandas as pd
 import os
 import ast
 from flask_cors import CORS
-
+import ast
 app = Flask(__name__)
 CORS(app)  # Allow cross-origin requests
 
@@ -29,17 +30,19 @@ if 'coordinates' in df.columns:
 
 @app.route("/api/tweets", methods=["GET"])
 def get_tweets():
-    # Retrieve query parameters for filtering:
+    # Filter for valid coordinates
+    filtered = df[df['coordinates'].apply(lambda x: isinstance(x, list) and len(x) > 0)]
+
+    if filtered.empty:
+        return jsonify([])
+
+    # Apply any additional filtering based on query parameters (optional)
     tier1 = request.args.get("tier1", "All")
     detailed = request.args.get("detailed", "All")
     handle = request.args.get("handle", "All")
-    start_date = request.args.get("startDate")  # Expected format: 'YYYY-MM-DD'
-    end_date = request.args.get("endDate")      # Expected format: 'YYYY-MM-DD'
+    start_date = request.args.get("startDate")
+    end_date = request.args.get("endDate")
     
-    # Start with a copy of the full DataFrame
-    filtered = df.copy()
-    
-    # Apply filters based on provided parameters
     if tier1 != "All":
         filtered = filtered[filtered["tier1_category"] == tier1]
     if detailed != "All":
@@ -50,8 +53,8 @@ def get_tweets():
         filtered = filtered[filtered["tweet_date"] >= start_date]
     if end_date:
         filtered = filtered[filtered["tweet_date"] <= end_date]
-    
-    # Convert the filtered DataFrame to a list of dictionaries
+
+    # Convert to a list of records for the frontend
     tweets = filtered.to_dict(orient="records")
     return jsonify(tweets)
 
