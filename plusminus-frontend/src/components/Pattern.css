@@ -1,0 +1,22 @@
+/* Pattern styles */
+.pattern-container {
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 180deg,
+    #ff6f61 0% 25%,
+    #f57c00 25% 50%,
+    #ffeb3b 50% 75%,
+    #4caf50 75% 100%
+  );
+  animation: patternAnimation 2s ease-out infinite;
+}
+
+@keyframes patternAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

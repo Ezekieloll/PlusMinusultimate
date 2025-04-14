@@ -1,0 +1,171 @@
+/* Container for the page */
+.auth-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f5f5; /* A warm off-white background for the page */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Center rectangle container */
+.auth-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 70%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Inside the rectangle, design side */
+.auth-card-container .left-side {
+  background: conic-gradient(
+    from 45deg,
+    #ff7e5f, #feb47b
+  );
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: relative; /* Position relative to place logo */
+}
+
+/* Logo styling inside the left side */
+.auth-card-container .left-side .logo {
+  position: absolute;
+  width: 150px;  /* Adjust logo size */
+  height: auto;
+  opacity: 0.8;
+}
+
+/* Inside the rectangle, right side (form) */
+.auth-card-container .right-side {
+  flex: 1;
+  background: #fff2e6; /* Soft warm color for the form area */
+  padding: 2rem;
+  border-left: 2px solid #ccc;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Fade in animation */
+.auth-page-wrapper.animate {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pattern rotation animation */
+@keyframes rotatePattern {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pattern Styling */
+.pattern-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 45deg,
+    #ff7e5f, #feb47b
+  );
+  opacity: 0.2; /* Light background for the pattern */
+  z-index: -1; /* Make sure the pattern stays behind the form */
+  pointer-events: none;
+  animation: rotatePattern 3s ease-out forwards; /* Rotate pattern once */
+  animation-delay: 0.3s; /* Delay to start after the page loads */
+  /* Adding shapes into the pattern */
+  background-image: 
+    radial-gradient(circle, rgba(255, 126, 95, 0.7) 10%, rgba(254, 180, 123, 0.7) 30%),
+    conic-gradient(from 45deg, #ff7e5f, #feb47b);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Form styling */
+.auth-title {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.auth-subtitle {
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fef3e0; /* Warm light color for inputs */
+  font-size: 1rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #ff7e5f; /* Warm orange color for button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #feb47b; /* Lighter warm color when hovered */
+}
+
+/* Toggle text between sign up and sign in */
+.toggle-auth {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #ff7e5f;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  text-decoration: underline;
+}

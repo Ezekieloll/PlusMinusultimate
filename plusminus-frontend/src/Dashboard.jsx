@@ -1,23 +1,28 @@
-// src/Dashboard.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import Filters from './components/Filters';
 import MapComponent from './components/MapComponent';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import './Dashboard.css';
+import { FiLogOut, FiUser } from 'react-icons/fi';
+import { getAuth, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import Legend from './components/Legend';
 
 function Dashboard() {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [tier1, setTier1] = useState("All");
   const [detailed, setDetailed] = useState("All");
   const [handle, setHandle] = useState("All");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [tweetData, setTweetData] = useState([]);
+  const [useHeatmap, setUseHeatmap] = useState(false);  // Track heatmap state
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get the Firebase ID token if user is authenticated
         let token = "";
         if (user) {
           token = await user.getIdToken();
@@ -27,7 +32,13 @@ function Dashboard() {
           params,
           headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
-        setTweetData(response.data);
+        console.log("Data received in Dashboard:", response.data);
+
+        if (Array.isArray(response.data)) {
+          setTweetData(response.data);
+        } else {
+          setTweetData([]);
+        }
       } catch (error) {
         console.error("Error fetching tweet data:", error);
       }
@@ -35,11 +46,42 @@ function Dashboard() {
     fetchData();
   }, [tier1, detailed, handle, startDate, endDate, user]);
 
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      setUser(null);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-4">PlusMinus Tweet Analytics</h1>
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/3 p-2">
+    <div className="dashboard-wrapper">
+      {/* NAVBAR */}
+      <nav className="navbar">
+        <div className="navbar-left">
+          <img
+            src="/PlusMinus__1_-removebg-preview.png"
+            alt="Logo"
+            className="logo-image"
+            style={{ marginRight: '1px', width: '90px', height: '90px', marginTop: "20px" }}
+          />
+          <span className="navbar-title">PlusMinus Tweet Analytics</span>
+        </div>
+       
+        <div className="navbar-right">
+          <span className="user-email"><FiUser style={{ marginRight: '6px' }} />{user?.email}</span>
+          <button className="logout-button" onClick={handleLogout}>
+            <FiLogOut style={{ marginRight: '6px' }} />Logout
+          </button>
+        </div>
+      </nav>
+
+      {/* MAIN DASHBOARD */}
+      <div className="dashboard-content">
+        <div className="filters-panel slide-in-left">
           <Filters
             tier1={tier1}
             setTier1={setTier1}
@@ -52,9 +94,12 @@ function Dashboard() {
             endDate={endDate}
             setEndDate={setEndDate}
           />
+          {/* Toggle switch for heatmap */}
+         
         </div>
-        <div className="w-full md:w-2/3 p-2">
-          <MapComponent tweetData={tweetData} />
+        <div className="map-panel slide-in-right">
+          <MapComponent tweetData={tweetData} tier1Filter={tier1} useHeatmap={useHeatmap} />
+          <Legend />
         </div>
       </div>
     </div>

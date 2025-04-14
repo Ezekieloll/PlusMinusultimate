@@ -1,70 +1,60 @@
-// src/components/Filters.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const tier1Options = ["All", "Crime-related", "Achievement-based", "Neutral"];
+const handleOptions = ["All", "IndiaToday", "ZeeNewsEnglish", "timesofindia", "htTweets", "NDTV"];
 
-// Define detailed options for each Tier 1 category
 const detailedMapping = {
-  "Crime-related": ["Murder", "Robbery", "Rape", "Assault", "Theft", "Fraud", "Kidnapping"],
-  "Achievement-based": ["Award won", "Innovation", "Record", "Milestone", "Discovery", "Recognition"],
-  "Neutral": ["Neutral"]
+  "Crime-related": ["All", "Murder", "Robbery", "Rape", "Assault", "Theft", "Fraud", "Kidnapping"],
+  "Achievement-based": ["All", "Award won", "Innovation", "Record", "Milestone", "Discovery", "Recognition"],
+  "Neutral": ["All", "None"]
 };
 
-const handleOptions = ["All", "IndiaToday", "ZeeNewsEnglish", "timesofindia", "htTweets","NDTV"];
-
 function Filters({
-  tier1,
-  setTier1,
-  detailed,
-  setDetailed,
-  handle,
-  setHandle,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate
+  tier1, setTier1,
+  detailed, setDetailed,
+  handle, setHandle,
+  startDate, setStartDate,
+  endDate, setEndDate,
+  fetchFilteredTweets,
+  isLoading
 }) {
-  // Compute detailed options based on the selected Tier 1 category
-  let computedDetailedOptions = ["All"];
-  if (tier1 === "Crime-related") {
-    computedDetailedOptions = ["All", ...detailedMapping["Crime-related"]];
-  } else if (tier1 === "Achievement-based") {
-    computedDetailedOptions = ["All", ...detailedMapping["Achievement-based"]];
-  } else if (tier1 === "Neutral") {
-    computedDetailedOptions = ["All", ...detailedMapping["Neutral"]];
-  }
-  
-  return (
-    <div className="flex flex-col space-y-4">
-      {/* Tier 1 Category */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Tier 1 Category
-        </label>
-        <select
-          value={tier1}
-          onChange={(e) => {
-            setTier1(e.target.value);
-            // Reset detailed to "All" when tier1 changes
-            setDetailed("All");
-          }}
-          className="block w-full border border-gray-300 rounded-md shadow-sm p-2"
-        >
-          {tier1Options.map((option) => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
-      </div>
+  useEffect(() => {
+    // Only reset detailed if switching between Crime/Achievement categories
+    if (tier1 === "Crime-related" || tier1 === "Achievement-based") {
+      setDetailed("All");
+    }
+  }, [tier1, setDetailed]);
 
-      {/* Detailed Category */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Detailed Category
-        </label>
-        <select
-          value={detailed}
+  let computedDetailedOptions = ["All"];
+  if (tier1 !== "All") {
+    computedDetailedOptions = detailedMapping[tier1] || ["All"];
+  }
+
+
+
+  return (
+    <div className="filter-container">
+      <h2 className="filter-header">Filter Tweets</h2>
+
+      <div className="filter-group">
+    <label>Tier 1 Category</label>
+    <select 
+      value={tier1} 
+      onChange={(e) => setTier1(e.target.value)}
+      disabled={isLoading}
+    >
+      {tier1Options.map((option) => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+    </select>
+</div>
+
+      <div className="filter-group">
+        <label>Detailed Category</label>
+        <select 
+          value={detailed} 
           onChange={(e) => setDetailed(e.target.value)}
-          className="block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          disabled={isLoading || tier1 === "All"}
         >
           {computedDetailedOptions.map((option) => (
             <option key={option} value={option}>{option}</option>
@@ -72,15 +62,12 @@ function Filters({
         </select>
       </div>
 
-      {/* Handle */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          News Channel (Handle)
-        </label>
-        <select
-          value={handle}
+      <div className="filter-group">
+        <label>News Channel</label>
+        <select 
+          value={handle} 
           onChange={(e) => setHandle(e.target.value)}
-          className="block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          disabled={isLoading}
         >
           {handleOptions.map((option) => (
             <option key={option} value={option}>{option}</option>
@@ -88,31 +75,27 @@ function Filters({
         </select>
       </div>
 
-      {/* Start Date */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Start Date
-        </label>
-        <input
-          type="date"
-          value={startDate}
+      <div className="filter-group">
+        <label>Start Date</label>
+        <input 
+          type="date" 
+          value={startDate} 
           onChange={(e) => setStartDate(e.target.value)}
-          className="block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          disabled={isLoading}
         />
       </div>
 
-      {/* End Date */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          End Date
-        </label>
-        <input
-          type="date"
-          value={endDate}
+      <div className="filter-group">
+        <label>End Date</label>
+        <input 
+          type="date" 
+          value={endDate} 
           onChange={(e) => setEndDate(e.target.value)}
-          className="block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          disabled={isLoading}
         />
       </div>
+
+     
     </div>
   );
 }
