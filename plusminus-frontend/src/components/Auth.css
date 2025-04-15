@@ -52,7 +52,7 @@
   flex: 1;
   background: #fff2e6; /* Soft warm color for the form area */
   padding: 2rem;
-  border-left: 2px solid #ccc;
+  
 }
 
 .auth-card {
@@ -169,3 +169,94 @@
 .toggle-btn:hover {
   text-decoration: underline;
 }
+/* Dark mode styles */
+.auth-page-wrapper.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.auth-page-wrapper.dark .auth-card-container {
+  background-color: #1e1e1e;
+}
+
+.auth-page-wrapper.dark .right-side {
+  background-color: #2c2c2c;
+}
+
+.auth-page-wrapper.dark .input-field {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+.auth-page-wrapper.dark .submit-btn {
+  background-color:  #ff7e5f;
+}
+
+.auth-page-wrapper.dark .submit-btn:hover {
+  background-color: #feb47b;
+}
+
+.auth-page-wrapper.dark .toggle-btn {
+  color: #ff7e5f;
+}
+
+.auth-page-wrapper.dark .auth-title,
+.auth-page-wrapper.dark .auth-subtitle {
+  color: #fff;
+}
+
+/* Dark toggle switch */
+.theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+

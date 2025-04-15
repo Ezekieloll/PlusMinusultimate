@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import 'leaflet.heat';
 
-// Icon paths for markers
 const iconPaths = {
   red: '/marker-icon-2x-red.png',
   blue: '/marker-icon-2x-blue.png',
@@ -25,29 +24,33 @@ const getIcon = (category) => {
   });
 };
 
-// 🔥 HeatmapLayer component (with color gradient based on category)
 const HeatmapLayer = ({ points, category }) => {
   const map = useMap();
 
   useEffect(() => {
     if (!points.length) return;
 
-    const lowerCategory = category?.trim().toLowerCase();
     let gradient;
 
-    if (lowerCategory === 'crime-related') {
-      gradient = { 0.4: '#ff4d4d', 0.65: '#ff1a1a', 1: '#cc0000' }; // Red
-    } else if (lowerCategory === 'achievement-based') {
-      gradient = { 0.4: '#80bfff', 0.65: '#3399ff', 1: '#0066cc' }; // Blue
+    if (category === 'crime-related') {
+      gradient = { 0.4: '#ff4d4d', 0.65: '#ff1a1a', 1: '#cc0000' };
+    } else if (category === 'achievement-based') {
+      gradient = { 0.4: '#80bfff', 0.65: '#3399ff', 1: '#0066cc' };
+    } else if (category === 'all') {
+      gradient = {
+        0.2: '#80bfff',   // blue
+        0.5: '#b266ff',   // purple
+        0.8: '#ff4d4d',   // red
+      };
     } else {
-      gradient = { 0.4: '#d9b3ff', 0.65: '#b266ff', 1: '#6600cc' }; // Purple
+      gradient = { 0.4: '#d9b3ff', 0.65: '#b266ff', 1: '#6600cc' };
     }
 
     const heatLayer = L.heatLayer(points, {
       radius: 40,
       blur: 10,
       maxZoom: 17,
-      gradient: gradient,
+      gradient,
     }).addTo(map);
 
     return () => {
@@ -58,7 +61,7 @@ const HeatmapLayer = ({ points, category }) => {
   return null;
 };
 
-function MapComponent({ tweetData }) {
+function MapComponent({ tweetData, selectedTier1 }) {
   const [useHeatmap, setUseHeatmap] = useState(false);
   const [markers, setMarkers] = useState([]);
 
@@ -81,7 +84,20 @@ function MapComponent({ tweetData }) {
     setMarkers(processedData);
   }, [tweetData]);
 
-  const heatmapData = markers.map((m) => [m.lat, m.lon]);
+  const heatmapData = (() => {
+    if (selectedTier1?.toLowerCase() === 'all') {
+      return markers
+        .filter(m =>
+          m.tier1_category?.toLowerCase() === 'crime-related' ||
+          m.tier1_category?.toLowerCase() === 'achievement-based'
+        )
+        .map((m) => [m.lat, m.lon, 0.7]);
+    } else {
+      return markers.map((m) => [m.lat, m.lon, 0.7]);
+    }
+  })();
+
+  const heatmapCategory = selectedTier1?.toLowerCase() || 'neutral';
 
   return (
     <div>
@@ -102,10 +118,7 @@ function MapComponent({ tweetData }) {
         />
 
         {useHeatmap && (
-          <HeatmapLayer
-            points={heatmapData}
-            category={markers[0]?.tier1_category}
-          />
+          <HeatmapLayer points={heatmapData} category={heatmapCategory} />
         )}
 
         {!useHeatmap &&

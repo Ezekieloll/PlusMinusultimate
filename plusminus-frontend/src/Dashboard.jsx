@@ -95,10 +95,9 @@ function Dashboard() {
             setEndDate={setEndDate}
           />
           {/* Toggle switch for heatmap */}
-         
         </div>
         <div className="map-panel slide-in-right">
-          <MapComponent tweetData={tweetData} tier1Filter={tier1} useHeatmap={useHeatmap} />
+          <MapComponent tweetData={tweetData} selectedTier1={tier1} useHeatmap={useHeatmap} />
           <Legend />
         </div>
       </div>

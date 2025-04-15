@@ -1,10 +1,28 @@
 /* Background and general layout */
-.dashboard-wrapper {
-    min-height: 100vh;
-    background: linear-gradient(to right, #ffecd2, #fcb69f); /* Warm theme */
-    padding: 2rem;
-    font-family: 'Segoe UI', sans-serif;
+/* GLOBAL RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background: #fefefe;
 }
+
+/* Make all elements inherit box-sizing */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+
+.dashboard-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  padding: 0 2rem 2rem 2rem; /* Removed top padding */
+  font-family: 'Segoe UI', sans-serif;
+}
+
 
 /* Header Section */
 .dashboard-header {
@@ -245,15 +263,18 @@
   color: #333;
 }
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 1rem 2rem;
-    border-radius: 16px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1rem 2rem;
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto 1.5rem auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
   }
   
   .navbar-left {

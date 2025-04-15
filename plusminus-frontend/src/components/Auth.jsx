@@ -11,6 +11,7 @@ function Auth() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState("");
   const [animate, setAnimate] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,62 +36,71 @@ function Auth() {
   };
 
   return (
-    <div className={`auth-page-wrapper ${animate ? 'animate' : ''}`}>
-      <div className="auth-card-container">
-        <div className="left-side">
-          {/* Add the logo in the left-side pattern */}
-          <img
-  src="/PlusMinus-removebg-preview.png"
-  alt="Logo"
-  className="logo"
-  style={{ width: '300px', height: '300px' }}
-/>
+    <div className={`auth-page-wrapper ${animate ? 'animate' : ''} ${darkMode ? 'dark' : ''}`}>
+    <div className="auth-card-container">
+      <div className="left-side">
+        <img
+          src="/PlusMinus-removebg-preview.png"
+          alt="Logo"
+          className="logo"
+          style={{ width: '300px', height: '300px' }}
+        />
+      </div>
+      <div className="right-side">
+        <div className="theme-toggle">
+          <label className="switch">
+            <input type="checkbox" onChange={() => setDarkMode(!darkMode)} checked={darkMode} />
+            <span className="slider round"></span>
+          </label>
+          <span>{darkMode ? "Dark Mode" : "Light Mode"}</span>
         </div>
-        <div className="right-side">
-          <div className="auth-card">
-            <h1 className="auth-title">{isRegistering ? 'Create Account' : 'Welcome Back'}</h1>
-            <p className="auth-subtitle">{isRegistering ? 'Start your journey' : 'Sign in to continue'}</p>
-
-            <form className="auth-form" onSubmit={handleAuth}>
-              <input
-                type="email"
-                placeholder="Email"
-                className="input-field"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="input-field"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-
-              {error && <p className="error-message">{error}</p>}
-
-              <button type="submit" className="submit-btn">
-                {isRegistering ? 'Sign Up' : 'Sign In'}
-              </button>
-            </form>
-
-            <div className="toggle-auth">
-              {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
-              <button
-                type="button"
-                onClick={() => setIsRegistering(!isRegistering)}
-                className="toggle-btn"
-              >
-                {isRegistering ? 'Sign In' : 'Register'}
-              </button>
-            </div>
+  
+        <div className="auth-card">
+          <h1 className="auth-title">{isRegistering ? 'Create Account' : 'Welcome Back'}</h1>
+          <p className="auth-subtitle">{isRegistering ? 'Start your journey' : 'Sign in to continue'}</p>
+  
+          <form className="auth-form" onSubmit={handleAuth}>
+            <input
+              type="email"
+              placeholder="Email"
+              className="input-field"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="input-field"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+  
+            {error && <p className="error-message">{error}</p>}
+  
+            <button type="submit" className="submit-btn">
+              {isRegistering ? 'Sign Up' : 'Sign In'}
+            </button>
+          </form>
+  
+          <div className="toggle-auth">
+            {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <button
+              type="button"
+              onClick={() => setIsRegistering(!isRegistering)}
+              className="toggle-btn"
+            >
+              {isRegistering ? 'Sign In' : 'Register'}
+            </button>
           </div>
         </div>
       </div>
-      <div className="pattern-container"></div>
     </div>
+    <div className={`pattern-container ${darkMode ? 'dark' : 'light'}`}></div>
+
+  </div>
+  
   );
 }
 
