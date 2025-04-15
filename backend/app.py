@@ -1,10 +1,10 @@
-# backend/app.py
 from flask import Flask, request, jsonify
 import pandas as pd
 import os
 import ast
 from flask_cors import CORS
-import ast
+import logging
+
 app = Flask(__name__)
 CORS(app)  # Allow cross-origin requests
 
@@ -43,20 +43,34 @@ def get_tweets():
     start_date = request.args.get("startDate")
     end_date = request.args.get("endDate")
     
+    # Log the initial filtering step
+    app.logger.info(f"Initial number of records: {len(filtered)}")
+
+    # Apply filters based on query params
     if tier1 != "All":
         filtered = filtered[filtered["tier1_category"] == tier1]
+        app.logger.info(f"Records after tier1 filter: {len(filtered)}")
     if detailed != "All":
         filtered = filtered[filtered["detailed_category"] == detailed]
+        app.logger.info(f"Records after detailed filter: {len(filtered)}")
     if handle != "All":
         filtered = filtered[filtered["handle"] == handle]
+        app.logger.info(f"Records after handle filter: {len(filtered)}")
     if start_date:
         filtered = filtered[filtered["tweet_date"] >= start_date]
+        app.logger.info(f"Records after start_date filter: {len(filtered)}")
     if end_date:
         filtered = filtered[filtered["tweet_date"] <= end_date]
+        app.logger.info(f"Records after end_date filter: {len(filtered)}")
+
+    # Log the final number of records after all filters
+    app.logger.info(f"Final number of records: {len(filtered)}")
 
     # Convert to a list of records for the frontend
     tweets = filtered.to_dict(orient="records")
     return jsonify(tweets)
 
 if __name__ == "__main__":
+    # Set up logging
+    logging.basicConfig(level=logging.INFO)
     app.run(debug=True)
