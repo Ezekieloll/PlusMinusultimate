@@ -37,70 +37,67 @@ function Auth() {
 
   return (
     <div className={`auth-page-wrapper ${animate ? 'animate' : ''} ${darkMode ? 'dark' : ''}`}>
-    <div className="auth-card-container">
-      <div className="left-side">
-        <img
-          src="/PlusMinus-removebg-preview.png"
-          alt="Logo"
-          className="logo"
-          style={{ width: '300px', height: '300px' }}
-        />
-      </div>
-      <div className="right-side">
-        <div className="theme-toggle">
-          <label className="switch">
-            <input type="checkbox" onChange={() => setDarkMode(!darkMode)} checked={darkMode} />
-            <span className="slider round"></span>
-          </label>
-          <span>{darkMode ? "Dark Mode" : "Light Mode"}</span>
+      <div className="auth-card-container">
+        <div className="left-side">
+          <img
+            src="/PlusMinus-removebg-preview.png"
+            alt="Logo"
+            className="logo"
+            style={{ width: '300px', height: '300px' }}
+          />
         </div>
-  
-        <div className="auth-card">
-          <h1 className="auth-title">{isRegistering ? 'Create Account' : 'Welcome Back'}</h1>
-          <p className="auth-subtitle">{isRegistering ? 'Start your journey' : 'Sign in to continue'}</p>
-  
-          <form className="auth-form" onSubmit={handleAuth}>
-            <input
-              type="email"
-              placeholder="Email"
-              className="input-field"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-  
-            {error && <p className="error-message">{error}</p>}
-  
-            <button type="submit" className="submit-btn">
-              {isRegistering ? 'Sign Up' : 'Sign In'}
-            </button>
-          </form>
-  
-          <div className="toggle-auth">
-            {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
-            <button
-              type="button"
-              onClick={() => setIsRegistering(!isRegistering)}
-              className="toggle-btn"
-            >
-              {isRegistering ? 'Sign In' : 'Register'}
-            </button>
+        <div className="right-side">
+          <div className="auth-card">
+            <div className="theme-toggle-floating">
+              <label className="switch">
+                <input type="checkbox" onChange={() => setDarkMode(!darkMode)} checked={darkMode} />
+                <span className="slider round"></span>
+              </label>
+            </div>
+
+            <h1 className="auth-title">{isRegistering ? 'Create Account' : 'Welcome Back'}</h1>
+            <p className="auth-subtitle">{isRegistering ? 'Start your journey' : 'Sign in to continue'}</p>
+
+            <form className="auth-form" onSubmit={handleAuth}>
+              <input
+                type="email"
+                placeholder="Email"
+                className="input-field"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="input-field"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+
+              {error && <p className="error-message">{error}</p>}
+
+              <button type="submit" className="submit-btn">
+                {isRegistering ? 'Sign Up' : 'Sign In'}
+              </button>
+            </form>
+
+            <div className="toggle-auth">
+              {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                type="button"
+                onClick={() => setIsRegistering(!isRegistering)}
+                className="toggle-btn"
+              >
+                {isRegistering ? 'Sign In' : 'Register'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <div className={`pattern-container ${darkMode ? 'dark' : 'light'}`}></div>
     </div>
-    <div className={`pattern-container ${darkMode ? 'dark' : 'light'}`}></div>
-
-  </div>
-  
   );
 }
 

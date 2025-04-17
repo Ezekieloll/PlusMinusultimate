@@ -4,7 +4,7 @@ import MapComponent from './components/MapComponent';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import './Dashboard.css';
-import { FiLogOut, FiUser } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiMoon, FiSun } from 'react-icons/fi';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Legend from './components/Legend';
@@ -17,7 +17,8 @@ function Dashboard() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [tweetData, setTweetData] = useState([]);
-  const [useHeatmap, setUseHeatmap] = useState(false);  // Track heatmap state
+  const [useHeatmap, setUseHeatmap] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +33,6 @@ function Dashboard() {
           params,
           headers: { Authorization: token ? `Bearer ${token}` : "" },
         });
-        console.log("Data received in Dashboard:", response.data);
 
         if (Array.isArray(response.data)) {
           setTweetData(response.data);
@@ -46,6 +46,10 @@ function Dashboard() {
     fetchData();
   }, [tier1, detailed, handle, startDate, endDate, user]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
   const handleLogout = async () => {
     try {
       const auth = getAuth();
@@ -55,6 +59,10 @@ function Dashboard() {
     } catch (error) {
       console.error("Error logging out:", error);
     }
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(prev => !prev);
   };
 
   return (
@@ -70,8 +78,11 @@ function Dashboard() {
           />
           <span className="navbar-title">PlusMinus Tweet Analytics</span>
         </div>
-       
+
         <div className="navbar-right">
+          <button className="theme-toggle" onClick={toggleDarkMode} title="Toggle Theme">
+            {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+          </button>
           <span className="user-email"><FiUser style={{ marginRight: '6px' }} />{user?.email}</span>
           <button className="logout-button" onClick={handleLogout}>
             <FiLogOut style={{ marginRight: '6px' }} />Logout
@@ -94,7 +105,6 @@ function Dashboard() {
             endDate={endDate}
             setEndDate={setEndDate}
           />
-          {/* Toggle switch for heatmap */}
         </div>
         <div className="map-panel slide-in-right">
           <MapComponent tweetData={tweetData} selectedTier1={tier1} useHeatmap={useHeatmap} />

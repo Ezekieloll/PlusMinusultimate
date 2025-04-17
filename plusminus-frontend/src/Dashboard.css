@@ -1,3 +1,21 @@
+:root {
+  --bg-main: #ffffff;
+  --bg-secondary: #f4f4f4;
+  --text-main: #222222;
+  --text-muted: #555;
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --accent-color: #f57c00;
+}
+
+[data-theme="dark"] {
+  --bg-main: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-main: #f5f5f5;
+  --text-muted: #bbbbbb;
+  --panel-bg: rgba(30, 30, 30, 0.85);
+  --accent-color: #bb86fc;
+}
+
 /* Background and general layout */
 /* GLOBAL RESET */
 html, body {
@@ -362,4 +380,154 @@ html, body {
     height: 41px;
     margin-right: 8px;
   }
-  
+  /* Dark mode theming variables */
+:root {
+  --bg-main: #fff;
+  --bg-secondary: rgba(255, 255, 255, 0.9);
+  --text-main: #333;
+  --panel-bg: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] {
+  --bg-main: #121212;
+  --bg-secondary: rgba(34, 34, 34, 0.9);
+  --text-main: #f5f5f5;
+  --panel-bg: rgba(34, 34, 34, 0.85);
+}
+
+html, body {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* Override themed elements */
+.dashboard-wrapper {
+  background: var(--bg-main);
+}
+
+.filters-panel,
+.map-panel {
+  background: var(--panel-bg);
+}
+
+.filter-container {
+  background: var(--panel-bg);
+  color: var(--text-main);
+}
+
+.navbar {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+.legend-box {
+  background: var(--panel-bg);
+  color: var(--text-main);
+}
+
+.user-email {
+  color: var(--text-main);
+}
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  transition: color 0.3s ease;
+  margin-right: 10px;
+}
+
+.theme-toggle:hover {
+  color: #f57c00;
+}
+body, html {
+  background: var(--bg-main);
+  color: var(--text-main);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dashboard-wrapper,
+.filters-panel,
+.map-panel,
+.navbar,
+.legend-box {
+  background-color: var(--panel-bg);
+  color: var(--text-main);
+}
+
+.navbar-title,
+.user-email,
+.legend-title,
+label {
+  color: var(--text-main);
+}
+
+input, select {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--text-muted);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+.logout-button,
+.theme-toggle {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--text-muted);
+  cursor: pointer;
+}
+
+.theme-toggle {
+  padding: 0.6em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Filter Section Styles - Theme Friendly */
+.filter-container {
+  padding: 20px;
+  background-color: var(--panel-bg);
+  color: var(--text-main);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-header {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text-main);
+}
+
+.filter-group {
+  margin-bottom: 15px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--text-muted);
+  border-radius: 5px;
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-group select:disabled,
+.filter-group input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
