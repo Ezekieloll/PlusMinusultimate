@@ -56,7 +56,7 @@ def main():
 
     print("STEP 4: Geocoding locations with OpenCage API...")
     df = pd.read_csv(with_locations_file)
-    OPENCAGE_API_KEY = "24bac8d640fc4eefbb2873c279dfa223"  # Replace with your actual API key
+    OPENCAGE_API_KEY = ""  # Replace with your actual API key
     df = apply_geocoding(df, OPENCAGE_API_KEY)
     df.to_csv(with_geocodes_file, index=False)
     print(f"Geocoding complete. Final file saved to {with_geocodes_file}")
